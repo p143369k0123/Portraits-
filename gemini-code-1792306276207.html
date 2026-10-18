@@ -1,0 +1,1595 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portraits - Fine Art Gallery</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-color: #050505;
+            --surface-color: #0E0E0E;
+            --text-primary: #F4F4F0;
+            --text-secondary: #999995;
+            --text-muted: #555550;
+            --border-color: #222220;
+            --accent-white: #FFFFFF;
+            --overlay-dark: rgba(5, 5, 5, 0.95);
+            --transition-smooth: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3, h4, .serif {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1450px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* Header / Navbar */
+        header {
+            padding: 25px 0 15px 0;
+            border-bottom: 1px solid var(--border-color);
+            position: relative;
+            background-color: var(--bg-color);
+            z-index: 10;
+        }
+
+        .header-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .brand-title {
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            color: var(--text-primary);
+            font-weight: 300;
+        }
+
+        .header-icons {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon-btn {
+            background: none;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            padding: 6px 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+        }
+
+        .icon-btn:hover {
+            color: var(--accent-white);
+            border-color: var(--text-primary);
+            transform: scale(1.05);
+        }
+
+        .subtitle {
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            margin-top: 4px;
+            font-weight: 300;
+        }
+
+        /* Top Banner Slideshow */
+        .slideshow-section {
+            padding: 20px 0 10px 0;
+            position: relative;
+        }
+
+        .slideshow-container {
+            width: 100%;
+            height: 55vh;
+            max-height: 600px;
+            min-height: 300px;
+            position: relative;
+            overflow: hidden;
+            background: transparent;
+            border: none;
+        }
+
+        /* Background Blurry Image Wrapper behind the slideshow image */
+        .slide-bg-blur {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            overflow: hidden;
+            opacity: 0.5; /* Adjust blur brightness if needed */
+        }
+
+        .slide-bg-blur img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: blur(25px) brightness(0.6);
+            transform: scale(1.1);
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1.2s ease-in-out, transform 1.2s ease-in-out;
+            transform: scale(1.02);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slide.active {
+            opacity: 1;
+            transform: scale(1);
+            z-index: 2;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* Updated to ensure full image fits properly without cropping on desktop */
+            background-color: transparent;
+            position: relative;
+            z-index: 2;
+        }
+
+        .slideshow-empty {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: var(--text-muted);
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Gallery Grid Section */
+        .gallery-section {
+            padding: 30px 0 60px 0;
+        }
+
+        .section-header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 6px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 1px;
+            background-color: var(--text-primary);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .gallery-card {
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            transition: var(--transition-smooth);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .gallery-card:hover {
+            border-color: #555550;
+            transform: translateY(-4px);
+        }
+
+        .card-img-wrapper {
+            position: relative;
+            width: 100%;
+            padding-top: 135%;
+            overflow: hidden;
+            background-color: #111;
+        }
+
+        .card-img-wrapper img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .gallery-card:hover .card-img-wrapper img {
+            transform: scale(1.06);
+        }
+
+        .card-info {
+            padding: 12px 10px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            background-color: var(--surface-color);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .card-title {
+            font-size: 1.05rem;
+            color: var(--text-primary);
+            margin-bottom: 3px;
+            line-height: 1.2;
+            font-weight: 500;
+        }
+
+        .card-text {
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+            line-height: 1.3;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+
+        /* Pagination Controls */
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+            margin-top: 40px;
+        }
+
+        .page-btn {
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 8px 18px;
+            font-family: inherit;
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .page-btn:hover:not(:disabled) {
+            background-color: var(--text-primary);
+            color: var(--bg-color);
+            border-color: var(--text-primary);
+        }
+
+        .page-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .page-indicator {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            letter-spacing: 1px;
+        }
+
+        .empty-gallery {
+            grid-column: 1 / -1;
+            padding: 70px 20px;
+            text-align: center;
+            background-color: var(--surface-color);
+            border: 1px dashed var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        .empty-gallery i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: var(--text-muted);
+        }
+
+        /* ================= INFINITE MOUSE TRAIL ARCHIVE EFFECT ================= */
+        .archive-page {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: var(--bg-color);
+            z-index: 2000;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .archive-page.active {
+            display: flex;
+        }
+
+        .archive-header {
+            padding: 12px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: var(--surface-color);
+            flex-shrink: 0;
+            z-index: 2010;
+        }
+
+        .compact-back-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 5px 12px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border-radius: 3px;
+            transition: var(--transition-smooth);
+        }
+
+        .compact-back-btn:hover {
+            background: var(--text-primary);
+            color: var(--bg-color);
+        }
+
+        /* WebGL / Canvas Trail Container */
+        .trail-canvas-container {
+            position: relative;
+            flex-grow: 1;
+            width: 100%;
+            height: calc(100vh - 60px);
+            overflow: hidden;
+            cursor: crosshair;
+            background-color: #030303;
+        }
+
+        .trail-canvas-container canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .trail-hint {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            pointer-events: none;
+            z-index: 2005;
+        }
+
+        /* Modals Overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--overlay-dark);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-box {
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            width: 90%;
+            max-width: 520px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 30px;
+            position: relative;
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.9);
+        }
+
+        .modal-overlay.active .modal-box {
+            transform: translateY(0);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: color 0.2s;
+            z-index: 10;
+        }
+
+        .modal-close:hover {
+            color: var(--text-primary);
+        }
+
+        .modal-title {
+            font-size: 1.6rem;
+            margin-bottom: 18px;
+            text-align: center;
+        }
+
+        /* Profile Modal Specific Styles */
+        .profile-card-box {
+            text-align: center;
+            max-width: 440px;
+        }
+
+        .profile-pic-wrapper {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            overflow: hidden;
+            margin: 0 auto 15px auto;
+            border: 2px solid var(--border-color);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        .profile-pic-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-name {
+            font-size: 1.6rem;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
+        }
+
+        .profile-desc {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        .profile-insta-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 8px 18px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            border-radius: 4px;
+            transition: var(--transition-smooth);
+            margin-bottom: 20px;
+        }
+
+        .profile-insta-link:hover {
+            background: var(--text-primary);
+            color: var(--bg-color);
+            border-color: var(--text-primary);
+        }
+
+        .feedback-box-container {
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+            text-align: left;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px 14px;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.85rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--text-primary);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .btn {
+            display: inline-block;
+            width: 100%;
+            padding: 12px;
+            background-color: var(--text-primary);
+            color: var(--bg-color);
+            border: 1px solid var(--text-primary);
+            font-family: inherit;
+            font-size: 0.78rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            text-align: center;
+        }
+
+        .btn:hover {
+            background-color: transparent;
+            color: var(--text-primary);
+        }
+
+        .error-msg {
+            color: #E53935;
+            font-size: 0.78rem;
+            margin-top: 8px;
+            text-align: center;
+            display: none;
+        }
+
+        .admin-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+
+        .admin-tab {
+            flex: 1;
+            background: none;
+            border: none;
+            padding: 10px;
+            color: var(--text-secondary);
+            font-family: inherit;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+
+        .admin-tab.active {
+            color: var(--text-primary);
+            border-bottom-color: var(--text-primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .manage-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            margin-bottom: 10px;
+        }
+
+        .manage-item img {
+            width: 45px;
+            height: 45px;
+            object-fit: cover;
+        }
+
+        .manage-info {
+            flex-grow: 1;
+            padding: 0 12px;
+            overflow: hidden;
+        }
+
+        .manage-title {
+            font-size: 0.85rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .manage-actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .action-btn {
+            background: none;
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 5px 10px;
+            font-size: 0.7rem;
+            cursor: pointer;
+        }
+
+        .action-btn.delete {
+            color: #E53935;
+            border-color: #522;
+        }
+
+        /* Lightbox Fullscreen View */
+        .lightbox-modal {
+            background-color: rgba(0, 0, 0, 0.96);
+            backdrop-filter: blur(12px);
+        }
+
+        .lightbox-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 80px 20px 30px 20px;
+            position: relative;
+        }
+
+        .back-arrow-btn {
+            position: fixed;
+            top: 22px;
+            left: 25px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 6px 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border-radius: 4px;
+            transition: var(--transition-smooth);
+            z-index: 1010;
+        }
+
+        .back-arrow-btn:hover {
+            background: var(--text-primary);
+            color: var(--bg-color);
+            border-color: var(--text-primary);
+        }
+
+        .lightbox-img-wrapper {
+            max-width: 90vw;
+            max-height: 70vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .lightbox-img {
+            max-width: 100%;
+            max-height: 70vh;
+            object-fit: contain;
+            border: 1px solid var(--border-color);
+        }
+
+        .lightbox-details {
+            margin-top: 15px;
+            text-align: center;
+            max-width: 750px;
+        }
+
+        .lightbox-details .card-title {
+            font-size: 1.4rem;
+            margin-bottom: 4px;
+        }
+
+        .lightbox-details .card-text {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        footer {
+            border-top: 1px solid var(--border-color);
+            padding: 25px 0;
+            text-align: center;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            .brand-title {
+                font-size: 1.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Branding & Icons Group -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <h1 class="brand-title">MY PORTRAIT</h1>
+                <div class="header-icons">
+                    <button class="icon-btn" id="openArchiveBtn" title="View Image Trail Archive">
+                        <i class="fa-solid fa-th-large"></i>
+                    </button>
+                    <button class="icon-btn" id="openProfileBtn" title="Profile Details">
+                        <i class="fa-solid fa-user"></i>
+                    </button>
+                    <button class="icon-btn" id="lockBtn" title="Admin Login">
+                        <i class="fa-solid fa-lock"></i>
+                    </button>
+                </div>
+                <p class="subtitle">Fine Art & Cinema Gallery</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Slideshow -->
+        <section class="slideshow-section">
+            <div class="slideshow-container" id="slideshowContainer">
+                <div class="slideshow-empty" id="slideshowEmpty">
+                    <i class="fa-regular fa-images"></i>
+                    <p>Slideshow ready.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Grid -->
+        <section class="gallery-section">
+            <div class="section-header">
+                <h2 class="section-title">Portraits Collection</h2>
+            </div>
+            
+            <div class="gallery-grid" id="galleryGrid">
+                <div class="empty-gallery" id="galleryEmpty">
+                    <i class="fa-solid fa-camera-retro"></i>
+                    <h3>No Portraits Uploaded Yet</h3>
+                    <p>Click the lock icon to upload your portraits.</p>
+                </div>
+            </div>
+
+            <!-- Pagination Controls -->
+            <div class="pagination-container" id="paginationContainer" style="display: none;">
+                <button class="page-btn" id="prevPageBtn"><i class="fa-solid fa-arrow-left"></i> Back</button>
+                <span class="page-indicator" id="pageIndicator">Page 1 of 1</span>
+                <button class="page-btn" id="nextPageBtn">Next <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <p>&copy; MY PORTRAIT. ALL RIGHTS RESERVED.</p>
+        </div>
+    </footer>
+
+    <!-- INFINITE MOUSE TRAIL EFFECT ARCHIVE FULL PAGE -->
+    <div class="archive-page" id="archivePage">
+        <div class="archive-header">
+            <button class="compact-back-btn" id="closeArchiveBtn">
+                <i class="fa-solid fa-arrow-left"></i> Back
+            </button>
+            <div style="width: 50px;"></div>
+        </div>
+        <div class="trail-canvas-container" id="trailContainer">
+            <canvas id="trailCanvas"></canvas>
+            <div class="trail-hint">Move cursor or drag across screen</div>
+        </div>
+    </div>
+
+    <!-- Profile Card Modal -->
+    <div class="modal-overlay" id="profileModal">
+        <div class="modal-box profile-card-box">
+            <button class="modal-close" id="closeProfileModal"><i class="fa-solid fa-xmark"></i></button>
+            <div class="profile-pic-wrapper">
+                <img src="https://i.postimg.cc/CKpBWyfS/842087000-18148748221510199-2953594795534749133-n-webp.jpg" alt="Prem Kumar">
+            </div>
+            <h3 class="profile-name serif">Prem Kumar</h3>
+            <p class="profile-desc">Capturing timeless emotions, delicate light, and unspoken stories through the lens. Passionate fine art and portrait photographer dedicated to turning fleeting moments into eternal visual poetry.</p>
+            
+            <a href="https://www.instagram.com/prem_oo00?mdxt=b3VteTI4dnowbmVi" target="_blank" class="profile-insta-link">
+                <i class="fa-brands fa-instagram"></i> Instagram Profile
+            </a>
+
+            <div class="feedback-box-container">
+                <div class="form-group">
+                    <label for="feedbackInput">Send Feedback / Message</label>
+                    <textarea id="feedbackInput" class="form-control" placeholder="Apna message yahan likhein..."></textarea>
+                </div>
+                <button type="button" class="btn" id="sendWhatsAppBtn">Send Message</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Password Modal -->
+    <div class="modal-overlay" id="passwordModal">
+        <div class="modal-box">
+            <button class="modal-close" id="closePassModal"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="modal-title">Authentication Required</h3>
+            <form id="passwordForm">
+                <div class="form-group">
+                    <label for="passInput">Enter Admin Password</label>
+                    <input type="password" id="passInput" class="form-control" placeholder="••••••••" required autocomplete="off">
+                </div>
+                <div class="error-msg" id="passError">Incorrect password. Please try again.</div>
+                <button type="submit" class="btn" style="margin-top: 15px;">Unlock Dashboard</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Dashboard Modal -->
+    <div class="modal-overlay" id="adminModal">
+        <div class="modal-box">
+            <button class="modal-close" id="closeAdminModal"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="modal-title" id="adminModalTitle">Admin Dashboard</h3>
+            
+            <div class="admin-tabs">
+                <button class="admin-tab active" id="tabUploadBtn">Upload New</button>
+                <button class="admin-tab" id="tabManageBtn">Manage / Edit Posts</button>
+            </div>
+
+            <!-- Tab 1: Upload Form -->
+            <div class="tab-content active" id="uploadTabContent">
+                <form id="uploadForm">
+                    <input type="hidden" id="editPostId" value="">
+                    <div class="form-group">
+                        <label>Select Image Files (Select 1 or Multiple Photos)</label>
+                        <input type="file" id="fileInput" class="form-control" accept="image/*" multiple style="display:none;">
+                        <button type="button" class="btn" id="selectFileBtn" style="background-color: var(--bg-color); color: var(--text-primary); border-color: var(--border-color); margin-bottom: 6px;">
+                            <i class="fa-solid fa-upload" style="margin-right: 8px;"></i> Choose File(s)
+                        </button>
+                        <div id="fileNameDisplay" style="font-size: 0.75rem; color: var(--text-secondary); text-align: center;">No files chosen</div>
+                    </div>
+
+                    <div style="text-align: center; margin: 10px 0; font-size: 0.7rem; color: var(--text-muted);">— OR USE SINGLE URL —</div>
+
+                    <div class="form-group">
+                        <label for="urlInput">Direct Image URL</label>
+                        <input type="url" id="urlInput" class="form-control" placeholder="https://example.com/image.jpg">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="titleInput">Portrait Title (Optional)</label>
+                        <input type="text" id="titleInput" class="form-control" placeholder="Shared Title for all photos (Optional)">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="textInput">Description / Notes (Optional)</label>
+                        <textarea id="textInput" class="form-control" placeholder="Shared description for all photos (Optional)..."></textarea>
+                    </div>
+
+                    <div class="error-msg" id="uploadError">Please select Image File(s) or enter an Image URL.</div>
+                    <button type="submit" class="btn" id="submitUploadBtn" style="margin-top: 10px;">Publish to Gallery</button>
+                </form>
+            </div>
+
+            <!-- Tab 2: Manage & Edit Posts -->
+            <div class="tab-content" id="manageTabContent">
+                <div id="manageListContainer" style="max-height: 350px; overflow-y: auto;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Fullscreen Lightbox View -->
+    <div class="modal-overlay lightbox-modal" id="lightboxModal">
+        <button class="back-arrow-btn" id="backArrowBtn">
+            <i class="fa-solid fa-arrow-left"></i> Back
+        </button>
+        <div class="lightbox-container">
+            <div class="lightbox-img-wrapper">
+                <img src="" alt="" class="lightbox-img" id="lightboxImg">
+            </div>
+            <div class="lightbox-details">
+                <h3 class="card-title serif" id="lightboxTitle"></h3>
+                <p class="card-text" id="lightboxText"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        const FIREBASE_DB_URL = "https://portraits-5a0b8-default-rtdb.firebaseio.com/portraits.json";
+        const CUSTOM_BLURRY_BG_URL = "https://i.postimg.cc/YC1H9ThK/Gemini-Generated-Image-e2y99xe2y99xe2y9.png";
+
+        let portraitsData = [];
+        let slideshowInterval = null;
+        let currentSlideIdx = 0;
+        let selectedBase64Images = [];
+        
+        let currentPage = 1;
+        const itemsPerPage = 20;
+
+        // DOM Elements
+        const lockBtn = document.getElementById('lockBtn');
+        const openArchiveBtn = document.getElementById('openArchiveBtn');
+        const openProfileBtn = document.getElementById('openProfileBtn');
+        const profileModal = document.getElementById('profileModal');
+        const closeProfileModal = document.getElementById('closeProfileModal');
+        const feedbackInput = document.getElementById('feedbackInput');
+        const sendWhatsAppBtn = document.getElementById('sendWhatsAppBtn');
+
+        const archivePage = document.getElementById('archivePage');
+        const closeArchiveBtn = document.getElementById('closeArchiveBtn');
+
+        const passwordModal = document.getElementById('passwordModal');
+        const closePassModal = document.getElementById('closePassModal');
+        const passwordForm = document.getElementById('passwordForm');
+        const passInput = document.getElementById('passInput');
+        const passError = document.getElementById('passError');
+
+        const adminModal = document.getElementById('adminModal');
+        const closeAdminModal = document.getElementById('closeAdminModal');
+        const tabUploadBtn = document.getElementById('tabUploadBtn');
+        const tabManageBtn = document.getElementById('tabManageBtn');
+        const uploadTabContent = document.getElementById('uploadTabContent');
+        const manageTabContent = document.getElementById('manageTabContent');
+
+        const uploadForm = document.getElementById('uploadForm');
+        const editPostId = document.getElementById('editPostId');
+        const fileInput = document.getElementById('fileInput');
+        const selectFileBtn = document.getElementById('selectFileBtn');
+        const fileNameDisplay = document.getElementById('fileNameDisplay');
+        const urlInput = document.getElementById('urlInput');
+        const titleInput = document.getElementById('titleInput');
+        const textInput = document.getElementById('textInput');
+        const uploadError = document.getElementById('uploadError');
+        const submitUploadBtn = document.getElementById('submitUploadBtn');
+        const manageListContainer = document.getElementById('manageListContainer');
+
+        const slideshowContainer = document.getElementById('slideshowContainer');
+        const slideshowEmpty = document.getElementById('slideshowEmpty');
+        const galleryGrid = document.getElementById('galleryGrid');
+        const galleryEmpty = document.getElementById('galleryEmpty');
+        
+        const paginationContainer = document.getElementById('paginationContainer');
+        const prevPageBtn = document.getElementById('prevPageBtn');
+        const nextPageBtn = document.getElementById('nextPageBtn');
+        const pageIndicator = document.getElementById('pageIndicator');
+
+        const lightboxModal = document.getElementById('lightboxModal');
+        const backArrowBtn = document.getElementById('backArrowBtn');
+        const lightboxImg = document.getElementById('lightboxImg');
+        const lightboxTitle = document.getElementById('lightboxTitle');
+        const lightboxText = document.getElementById('lightboxText');
+
+        // Mouse Trail Canvas Engine Variables
+        const trailCanvas = document.getElementById('trailCanvas');
+        const ctx = trailCanvas.getContext('2d');
+        let trailImages = [];
+        let loadedImagesCache = [];
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        let lastX = mouseX;
+        let lastY = mouseY;
+        let imageIndex = 0;
+        let animationFrameId = null;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchPortraits();
+            setInterval(fetchPortraits, 15000);
+        });
+
+        // Profile Modal Events
+        openProfileBtn.addEventListener('click', () => {
+            profileModal.classList.add('active');
+        });
+
+        closeProfileModal.addEventListener('click', () => {
+            profileModal.classList.remove('active');
+        });
+
+        sendWhatsAppBtn.addEventListener('click', () => {
+            const message = feedbackInput.value.trim();
+            if (!message) {
+                alert('Please enter your feedback or message first.');
+                return;
+            }
+            const encodedMsg = encodeURIComponent(message);
+            const whatsappUrl = `https://wa.me/917704857716?text=${encodedMsg}`;
+            window.open(whatsappUrl, '_blank');
+        });
+
+        async function fetchPortraits() {
+            try {
+                const response = await fetch(FIREBASE_DB_URL);
+                const data = await response.json();
+                
+                if (data) {
+                    portraitsData = Object.keys(data).map(key => ({
+                        id: key,
+                        ...data[key]
+                    })).reverse();
+                } else {
+                    portraitsData = [];
+                }
+
+                renderGallery();
+                setupSlideshow();
+                renderManageList();
+                preloadTrailImages();
+            } catch (error) {
+                console.error("Error fetching portraits:", error);
+            }
+        }
+
+        // Preload images for canvas trail
+        function preloadTrailImages() {
+            loadedImagesCache = [];
+            portraitsData.forEach(item => {
+                const img = new Image();
+                img.src = item.imageUrl;
+                loadedImagesCache.push({ img, data: item });
+            });
+        }
+
+        // Render Main Grid
+        function renderGallery() {
+            galleryGrid.innerHTML = '';
+
+            if (portraitsData.length === 0) {
+                galleryGrid.appendChild(galleryEmpty);
+                galleryEmpty.style.display = 'block';
+                paginationContainer.style.display = 'none';
+                return;
+            }
+
+            galleryEmpty.style.display = 'none';
+
+            const totalPages = Math.ceil(portraitsData.length / itemsPerPage) || 1;
+            if (currentPage > totalPages) currentPage = totalPages;
+
+            const startIdx = (currentPage - 1) * itemsPerPage;
+            const endIdx = startIdx + itemsPerPage;
+            const currentItems = portraitsData.slice(startIdx, endIdx);
+
+            currentItems.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'gallery-card';
+                card.onclick = () => openLightbox(item.imageUrl, item.title || '', item.text || '');
+
+                card.innerHTML = `
+                    <div class="card-img-wrapper">
+                        <img src="${item.imageUrl}" alt="${escapeHtml(item.title || 'Portrait')}" loading="lazy">
+                    </div>
+                    <div class="card-info">
+                        ${item.title ? `<h3 class="card-title serif">${escapeHtml(item.title)}</h3>` : ''}
+                        ${item.text ? `<p class="card-text">${escapeHtml(item.text)}</p>` : ''}
+                    </div>
+                `;
+                galleryGrid.appendChild(card);
+            });
+
+            if (portraitsData.length > itemsPerPage) {
+                paginationContainer.style.display = 'flex';
+                pageIndicator.textContent = `Page ${currentPage} of ${totalPages}`;
+                prevPageBtn.disabled = currentPage === 1;
+                nextPageBtn.disabled = currentPage === totalPages;
+            } else {
+                paginationContainer.style.display = 'none';
+            }
+        }
+
+        prevPageBtn.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                renderGallery();
+                window.scrollTo({ top: 400, behavior: 'smooth' });
+            }
+        });
+
+        nextPageBtn.addEventListener('click', () => {
+            const totalPages = Math.ceil(portraitsData.length / itemsPerPage);
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderGallery();
+                window.scrollTo({ top: 400, behavior: 'smooth' });
+            }
+        });
+
+        // Slideshow - Loops through ALL portraits in database every 4 seconds with a blurry background image
+        function setupSlideshow() {
+            clearInterval(slideshowInterval);
+            slideshowContainer.innerHTML = '';
+
+            if (portraitsData.length === 0) {
+                slideshowContainer.appendChild(slideshowEmpty);
+                slideshowEmpty.style.display = 'flex';
+                return;
+            }
+
+            slideshowEmpty.style.display = 'none';
+
+            portraitsData.forEach((item, index) => {
+                const slide = document.createElement('div');
+                slide.className = `slide ${index === 0 ? 'active' : ''}`;
+                
+                // Adding blurry background image wrapper behind each slideshow image
+                slide.innerHTML = `
+                    <div class="slide-bg-blur">
+                        <img src="${CUSTOM_BLURRY_BG_URL}" alt="Blurry Background">
+                    </div>
+                    <img src="${item.imageUrl}" alt="Slideshow">
+                `;
+                slideshowContainer.appendChild(slide);
+            });
+
+            currentSlideIdx = 0;
+
+            if (portraitsData.length > 1) {
+                slideshowInterval = setInterval(() => {
+                    const slides = slideshowContainer.querySelectorAll('.slide');
+                    if (slides.length === 0) return;
+
+                    slides[currentSlideIdx].classList.remove('active');
+                    currentSlideIdx = (currentSlideIdx + 1) % slides.length;
+                    slides[currentSlideIdx].classList.add('active');
+                }, 4000);
+            }
+        }
+
+        // ================= MOUSE TRAIL EFFECT LOGIC =================
+        openArchiveBtn.addEventListener('click', () => {
+            archivePage.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            initTrailCanvas();
+        });
+
+        closeArchiveBtn.addEventListener('click', () => {
+            archivePage.classList.remove('active');
+            document.body.style.overflow = 'auto';
+            if (animationFrameId) cancelAnimationFrame(animationFrameId);
+        });
+
+        function initTrailCanvas() {
+            trailCanvas.width = trailCanvas.offsetWidth;
+            trailCanvas.height = trailCanvas.offsetHeight;
+            trailImages = [];
+
+            window.addEventListener('resize', resizeCanvas);
+            trailCanvas.addEventListener('mousemove', handlePointerMove);
+            trailCanvas.addEventListener('touchmove', handleTouchMove, { passive: true });
+
+            startTrailLoop();
+        }
+
+        function resizeCanvas() {
+            if (!archivePage.classList.contains('active')) return;
+            trailCanvas.width = trailCanvas.offsetWidth;
+            trailCanvas.height = trailCanvas.offsetHeight;
+        }
+
+        function handlePointerMove(e) {
+            mouseX = e.clientX;
+            mouseY = e.clientY - 60; // offset header
+            checkDistanceAndSpawn();
+        }
+
+        function handleTouchMove(e) {
+            if (e.touches.length > 0) {
+                mouseX = e.touches[0].clientX;
+                mouseY = e.touches[0].clientY - 60;
+                checkDistanceAndSpawn();
+            }
+        }
+
+        function checkDistanceAndSpawn() {
+            const dx = mouseX - lastX;
+            const dy = mouseY - lastY;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance > 35 && loadedImagesCache.length > 0) {
+                lastX = mouseX;
+                lastY = mouseY;
+                spawnTrailImage(mouseX, mouseY);
+            }
+        }
+
+        function spawnTrailImage(x, y) {
+            const cacheItem = loadedImagesCache[imageIndex % loadedImagesCache.length];
+            imageIndex++;
+
+            const trailObj = {
+                img: cacheItem.img,
+                data: cacheItem.data,
+                x: x,
+                y: y,
+                size: 140,
+                alpha: 1.0,
+                scale: 0.4,
+                rotation: (Math.random() - 0.5) * 0.4
+            };
+
+            trailImages.push(trailObj);
+            if (trailImages.length > 25) {
+                trailImages.shift();
+            }
+        }
+
+        function startTrailLoop() {
+            function render() {
+                ctx.clearRect(0, 0, trailCanvas.width, trailCanvas.height);
+
+                trailImages.forEach((item, index) => {
+                    item.scale += (1.0 - item.scale) * 0.1;
+                    item.alpha -= 0.015;
+
+                    if (item.alpha <= 0) {
+                        trailImages.splice(index, 1);
+                        return;
+                    }
+
+                    ctx.save();
+                    ctx.translate(item.x, item.y);
+                    ctx.rotate(item.rotation);
+                    ctx.globalAlpha = Math.max(item.alpha, 0);
+
+                    const w = item.size;
+                    const h = item.size * 1.35;
+                    ctx.drawImage(item.img, -w / 2, -h / 2, w, h);
+
+                    ctx.restore();
+                });
+
+                animationFrameId = requestAnimationFrame(render);
+            }
+            render();
+        }
+
+        trailCanvas.addEventListener('click', (e) => {
+            if (loadedImagesCache.length === 0) return;
+            const rect = trailCanvas.getBoundingClientRect();
+            const clickX = e.clientX - rect.left;
+            const clickY = e.clientY - rect.top;
+
+            for (let i = trailImages.length - 1; i >= 0; i--) {
+                const item = trailImages[i];
+                const w = item.size;
+                const h = item.size * 1.35;
+                if (
+                    clickX >= item.x - w/2 && clickX <= item.x + w/2 &&
+                    clickY >= item.y - h/2 && clickY <= item.y + h/2
+                ) {
+                    openLightbox(item.data.imageUrl, item.data.title || '', item.data.text || '');
+                    break;
+                }
+            }
+        });
+
+        // Lock & Password
+        lockBtn.addEventListener('click', () => {
+            passInput.value = '';
+            passError.style.display = 'none';
+            passwordModal.classList.add('active');
+            passInput.focus();
+        });
+
+        closePassModal.addEventListener('click', () => {
+            passwordModal.classList.remove('active');
+        });
+
+        passwordForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            if (passInput.value.trim() === 'oo00.in') {
+                passwordModal.classList.remove('active');
+                openAdminModal();
+            } else {
+                passError.style.display = 'block';
+            }
+        });
+
+        function openAdminModal() {
+            resetUploadForm();
+            adminModal.classList.add('active');
+            switchTab('upload');
+        }
+
+        closeAdminModal.addEventListener('click', () => {
+            adminModal.classList.remove('active');
+        });
+
+        tabUploadBtn.addEventListener('click', () => switchTab('upload'));
+        tabManageBtn.addEventListener('click', () => switchTab('manage'));
+
+        function switchTab(tab) {
+            if (tab === 'upload') {
+                tabUploadBtn.classList.add('active');
+                tabManageBtn.classList.remove('active');
+                uploadTabContent.classList.add('active');
+                manageTabContent.classList.remove('active');
+            } else {
+                tabManageBtn.classList.add('active');
+                tabUploadBtn.classList.remove('active');
+                manageTabContent.classList.add('active');
+                uploadTabContent.classList.remove('active');
+                renderManageList();
+            }
+        }
+
+        function resetUploadForm() {
+            uploadForm.reset();
+            editPostId.value = '';
+            selectedBase64Images = [];
+            fileNameDisplay.textContent = "No files chosen";
+            uploadError.style.display = 'none';
+            submitUploadBtn.textContent = 'Publish to Gallery';
+        }
+
+        selectFileBtn.addEventListener('click', () => fileInput.click());
+
+        fileInput.addEventListener('change', (e) => {
+            const files = Array.from(e.target.files);
+            selectedBase64Images = [];
+
+            if (files.length > 0) {
+                fileNameDisplay.textContent = `${files.length} File(s) Selected`;
+                let loadedCount = 0;
+
+                files.forEach(file => {
+                    const reader = new FileReader();
+                    reader.onload = function(evt) {
+                        selectedBase64Images.push(evt.target.result);
+                        loadedCount++;
+                    };
+                    reader.readAsDataURL(file);
+                });
+            } else {
+                fileNameDisplay.textContent = "No files chosen";
+            }
+        });
+
+        uploadForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const postId = editPostId.value;
+            const singleUrl = urlInput.value.trim();
+            const title = titleInput.value.trim();
+            const text = textInput.value.trim();
+
+            let imagesToUpload = [];
+
+            if (selectedBase64Images.length > 0) {
+                imagesToUpload = selectedBase64Images;
+            } else if (singleUrl) {
+                imagesToUpload = [singleUrl];
+            } else if (postId) {
+                const existingItem = portraitsData.find(p => p.id === postId);
+                if (existingItem) imagesToUpload = [existingItem.imageUrl];
+            }
+
+            if (imagesToUpload.length === 0) {
+                uploadError.style.display = 'block';
+                return;
+            }
+
+            submitUploadBtn.disabled = true;
+
+            try {
+                if (postId) {
+                    submitUploadBtn.textContent = 'Updating...';
+                    const payload = {
+                        imageUrl: imagesToUpload[0],
+                        title: title,
+                        text: text,
+                        timestamp: Date.now()
+                    };
+                    const updateUrl = `https://portraits-5a0b8-default-rtdb.firebaseio.com/portraits/${postId}.json`;
+                    await fetch(updateUrl, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                } else {
+                    const total = imagesToUpload.length;
+                    for (let i = 0; i < total; i++) {
+                        submitUploadBtn.textContent = `Publishing (${i + 1}/${total})...`;
+                        const payload = {
+                            imageUrl: imagesToUpload[i],
+                            title: title,
+                            text: text,
+                            timestamp: Date.now() - i
+                        };
+                        await fetch(FIREBASE_DB_URL, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+                    }
+                }
+
+                adminModal.classList.remove('active');
+                await fetchPortraits();
+            } catch (err) {
+                console.error("Error during upload:", err);
+                alert("Upload failed. Please check your internet connection.");
+            } finally {
+                submitUploadBtn.disabled = false;
+                resetUploadForm();
+            }
+        });
+
+        function renderManageList() {
+            manageListContainer.innerHTML = '';
+
+            if (portraitsData.length === 0) {
+                manageListContainer.innerHTML = '<p style="text-align:center; color:var(--text-secondary); padding:20px;">No posts available to manage.</p>';
+                return;
+            }
+
+            portraitsData.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'manage-item';
+                div.innerHTML = `
+                    <img src="${item.imageUrl}" alt="Thumb">
+                    <div class="manage-info">
+                        <div class="manage-title">${escapeHtml(item.title || 'Untitled')}</div>
+                    </div>
+                    <div class="manage-actions">
+                        <button class="action-btn" onclick="editPost('${item.id}')">Edit</button>
+                        <button class="action-btn delete" onclick="deletePost('${item.id}')">Delete</button>
+                    </div>
+                `;
+                manageListContainer.appendChild(div);
+            });
+        }
+
+        window.editPost = function(id) {
+            const item = portraitsData.find(p => p.id === id);
+            if (!item) return;
+
+            switchTab('upload');
+            editPostId.value = item.id;
+            titleInput.value = item.title || '';
+            textInput.value = item.text || '';
+            urlInput.value = item.imageUrl.startsWith('data:') ? '' : item.imageUrl;
+            fileNameDisplay.textContent = item.imageUrl.startsWith('data:') ? 'Using existing image' : 'No files chosen';
+            selectedBase64Images = item.imageUrl.startsWith('data:') ? [item.imageUrl] : [];
+            submitUploadBtn.textContent = 'Update Post';
+        };
+
+        window.deletePost = async function(id) {
+            if (!confirm('Are you sure you want to delete this portrait?')) return;
+
+            try {
+                const deleteUrl = `https://portraits-5a0b8-default-rtdb.firebaseio.com/portraits/${id}.json`;
+                const response = await fetch(deleteUrl, { method: 'DELETE' });
+                if (response.ok) {
+                    await fetchPortraits();
+                }
+            }catch (err) {
+                console.error("Delete Error:", err);
+            }
+        };
+
+        function openLightbox(url, title, text) {
+            lightboxImg.src = url;
+            lightboxTitle.textContent = title;
+            lightboxText.textContent = text;
+            lightboxModal.classList.add('active');
+        }
+
+        backArrowBtn.addEventListener('click', () => {
+            lightboxModal.classList.remove('active');
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (lightboxModal.classList.contains('active')) lightboxModal.classList.remove('active');
+                if (profileModal.classList.contains('active')) profileModal.classList.remove('active');
+                if (archivePage.classList.contains('active')) {
+                    archivePage.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                    if (animationFrameId) cancelAnimationFrame(animationFrameId);
+                }
+            }
+        });
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+    </script>
+</body>
+</html>
